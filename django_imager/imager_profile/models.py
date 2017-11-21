@@ -13,4 +13,4 @@ class ImagerProfile(models.Model):
     bio = models.CharField(max_length=200, blank=True, null=True)
     phone = models.CharField(max_length=200, blank=True, null=True)
     photo_styles = models.CharField(max_length=200, blank=True, null=True)
-    usser = models.OneToOneField(User, related_name='profile')
+    user = models.OneToOneField(User, related_name='profile')
