@@ -18,6 +18,6 @@ class ImagerProfile(models.Model):
     user = models.OneToOneField(User, related_name='profile')
 
     def active(self):
-        """Give permission for active user, loggin in."""
+        """Give permission to become an active user, loggin in."""
         self.is_active = True
         return
