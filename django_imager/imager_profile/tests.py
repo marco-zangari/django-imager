@@ -140,22 +140,42 @@ class ProfileTests(TestCase):
         nick = User.objects.get(email='nick@image.com')
         self.assertIsNotNone(nick.profile.photos.first())
 
+    def test_user_john_photo_has_create_date(self):
+        """Test photo has an upload date."""
+        john = User.objects.get(email='john@image.com')
+        self.assertIsInstance(john.profile.photos.first().date_uploaded, datetime)
+
+    def test_user_nick_photo_has_create_date(self):
+        """Test photo has an upload date."""
+        nick = User.objects.get(email='nick@image.com')
+        self.assertIsInstance(nick.profile.photos.first().date_uploaded, datetime)
+
+    def test_user_john_photo_has_publised_type(self):
+        """Test photo has an published type."""
+        john = User.objects.get(email='john@image.com')
+        self.assertEquals(john.profile.photos.first().published, 'PRIVATE')
+
+    def test_user_nick_photo_has_published_type(self):
+        """Test photo has an published type."""
+        nick = User.objects.get(email='nick@image.com')
+        self.assertEquals(nick.profile.photos.first().published, 'PRIVATE')
+
     def test_user_john_album_has_create_date(self):
         """Test album has an upload date."""
         john = User.objects.get(email='john@image.com')
-        self.assertIsInstance(john.profile.photos.first().date_uploaded, datetime)
+        self.assertIsInstance(john.profile.albums.first().date_uploaded, datetime)
 
     def test_user_nick_album_has_create_date(self):
         """Test album has an upload date."""
         nick = User.objects.get(email='nick@image.com')
-        self.assertIsInstance(nick.profile.photos.first().date_uploaded, datetime)
+        self.assertIsInstance(nick.profile.albums.first().date_uploaded, datetime)
 
     def test_user_john_album_has_publised_type(self):
         """Test album has an published type."""
         john = User.objects.get(email='john@image.com')
-        self.assertEquals(john.profile.photos.first().published, 'PRIVATE')
+        self.assertEquals(john.profile.albums.first().published, 'PRIVATE')
 
     def test_user_nick_album_has_published_type(self):
         """Test album has an published type."""
         nick = User.objects.get(email='nick@image.com')
-        self.assertEquals(nick.profile.photos.first().published, 'PRIVATE')
+        self.assertEquals(nick.profile.albums.first().published, 'PRIVATE')
