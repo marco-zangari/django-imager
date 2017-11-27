@@ -19,7 +19,14 @@
 </nav>
 
 
+{% if request.user.is_authenticated %}
+<h2> Welcome You Have Full Access </h2>
+{% endif %}
+
+
 {% block content %}{% endblock %}
 
 </body>
 </html>
+
+

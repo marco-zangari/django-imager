@@ -131,11 +131,13 @@ STATIC_URL = '/static/'
 LOGIN_REDIRECT_URL = 'home'
 
 
+# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+ACCOUNT_ACTIVATION_DAYS = 7
+
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 REGISTRATION_AUTO_LOGIN = True
-ACCOUNT_ACTIVATION_DAYS = 1
 EMAIL_HOST_USER = 'hellomollar@gmail.com'
 EMAIL_HOST_PASSWORD = 'bao19970356'
 DEFAULT_FROM_EMAIL = 'hellomollar@gmail.com'

@@ -4,6 +4,15 @@ from django.test import TestCase
 # Create your tests here.
 
 from imager_profile.models import ImagerProfile, User
+import factory
+from imager_images.models import Album, Photo
+from datetime import datetime
+
+
+class UserFactory(factory.django.DjangoModelFactory):
+    """Factory boy!"""
+    class Meta:
+        model = User
 
 
 class ProfileTests(TestCase):
@@ -11,27 +20,37 @@ class ProfileTests(TestCase):
 
     def setUp(self):
         """Initiate with two users in the db, one activce and one not."""
-        user = User(username='john', email='john@image.com')
+        user = UserFactory.create()
+        user.username = 'john'
+        user.email = 'john@image.com'
         user.set_password('password')
         user.save()
-        profile = ImagerProfile(website='www.iphoto.com',
-                                camera='Nikkon',
-                                location='studio destiny',
-                                bio='I take pictures',
-                                phone='(000) 111 2222',
-                                user=user)
-        profile.save()
+        user.profile.website = 'www.iphoto.com'
+        user.profile.camera = 'Nikkon'
+        user.profile.location = 'studio destiny'
+        user.profile.bio = 'I take pictures'
+        user.profile.phone = '(000) 111 2222'
+        user.profile.save()
+        album = Album(title='Album1', owner=user.profile)
+        album.save()  # to access this: user.profile.albums.first()
+        photo = Photo(title='Photo1', owner=user.profile)
+        photo.save()  # to access this: user.profile.photos.first()
 
-        user = User(username='nick', email='nick@image.com')
+        user = UserFactory.create()
+        user.username = 'nick'
+        user.email = 'nick@image.com'
         user.set_password('password')
         user.save()
-        profile = ImagerProfile(website='www.imgluv.com',
-                                camera='Sony',
-                                location='studio hell',
-                                bio='I take pictures too',
-                                phone='(000) 222 3333',
-                                user=user)
-        profile.save()
+        user.profile.website = 'www.imgluv.com'
+        user.profile.camera = 'Sony'
+        user.profile.location = 'studio hell'
+        user.profile.bio = 'I take pictures too'
+        user.profile.phone = '(000) 222 3333'
+        user.profile.save()
+        album = Album(title='Album2', owner=user.profile)
+        album.save()  # to access this: user.profile.albums.first()
+        photo = Photo(title='Photo2', owner=user.profile)
+        photo.save()  # to access this: user.profile.photos.first()
 
     def test_user_nick_can_point_to_its_profile(self):
         """Test if user can point to its profile."""
@@ -100,3 +119,63 @@ class ProfileTests(TestCase):
         """Test user have profile attribute bio."""
         nick = User.objects.get(email='nick@image.com')
         self.assertIsNotNone(nick.profile.bio)
+
+    def test_user_john_has_album_in_profile(self):
+        """Test user have profile attribute album."""
+        john = User.objects.get(email='john@image.com')
+        self.assertIsNotNone(john.profile.albums.first())
+
+    def test_user_nick_has_album_in_profile(self):
+        """Test user have profile attribute album."""
+        nick = User.objects.get(email='nick@image.com')
+        self.assertIsNotNone(nick.profile.albums.first())
+
+    def test_user_john_has_photo_in_profile(self):
+        """Test user have profile attribute photo."""
+        john = User.objects.get(email='john@image.com')
+        self.assertIsNotNone(john.profile.photos.first())
+
+    def test_user_nick_has_photo_in_profile(self):
+        """Test user have profile attribute photo."""
+        nick = User.objects.get(email='nick@image.com')
+        self.assertIsNotNone(nick.profile.photos.first())
+
+    def test_user_john_photo_has_create_date(self):
+        """Test photo has an upload date."""
+        john = User.objects.get(email='john@image.com')
+        self.assertIsInstance(john.profile.photos.first().date_uploaded, datetime)
+
+    def test_user_nick_photo_has_create_date(self):
+        """Test photo has an upload date."""
+        nick = User.objects.get(email='nick@image.com')
+        self.assertIsInstance(nick.profile.photos.first().date_uploaded, datetime)
+
+    def test_user_john_photo_has_publised_type(self):
+        """Test photo has an published type."""
+        john = User.objects.get(email='john@image.com')
+        self.assertEquals(john.profile.photos.first().published, 'PRIVATE')
+
+    def test_user_nick_photo_has_published_type(self):
+        """Test photo has an published type."""
+        nick = User.objects.get(email='nick@image.com')
+        self.assertEquals(nick.profile.photos.first().published, 'PRIVATE')
+
+    def test_user_john_album_has_create_date(self):
+        """Test album has an upload date."""
+        john = User.objects.get(email='john@image.com')
+        self.assertIsInstance(john.profile.albums.first().date_uploaded, datetime)
+
+    def test_user_nick_album_has_create_date(self):
+        """Test album has an upload date."""
+        nick = User.objects.get(email='nick@image.com')
+        self.assertIsInstance(nick.profile.albums.first().date_uploaded, datetime)
+
+    def test_user_john_album_has_publised_type(self):
+        """Test album has an published type."""
+        john = User.objects.get(email='john@image.com')
+        self.assertEquals(john.profile.albums.first().published, 'PRIVATE')
+
+    def test_user_nick_album_has_published_type(self):
+        """Test album has an published type."""
+        nick = User.objects.get(email='nick@image.com')
+        self.assertEquals(nick.profile.albums.first().published, 'PRIVATE')
