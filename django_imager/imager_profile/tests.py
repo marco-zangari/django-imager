@@ -5,7 +5,7 @@ from django.test import TestCase
 
 from imager_profile.models import ImagerProfile, User
 import factory
-
+from imager_images.models import Album, Photo
 
 class UserFactory(factory.django.DjangoModelFactory):
     class Meta:
@@ -28,7 +28,9 @@ class ProfileTests(TestCase):
         user.profile.bio = 'I take pictures'
         user.profile.phone = '(000) 111 2222'
         user.profile.save()
-
+        album = Album(title='Album1', owner=user.profile)
+        album.save()
+        import pdb; pdb.set_trace()
         user = UserFactory.create()
         user.username = 'nick'
         user.email = 'nick@image.com'
