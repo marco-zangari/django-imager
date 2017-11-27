@@ -2,6 +2,16 @@
 from django.db import models
 from django.contrib.auth.models import User
 
+from django.db.models.signals import post_save
+from django.dispatch import receiver
+
+
+class ActiveUsersManger(models.Manager):
+    """Active user."""
+    def get_queryset(self):
+        """Get the query set of active users."""
+        return super(ActiveUsersManger, self).get_queryset().filter(user__is_active=True)
+
 
 # Create your models here.
 class ImagerProfile(models.Model):
@@ -16,8 +26,18 @@ class ImagerProfile(models.Model):
     phone = models.CharField(max_length=200, blank=True, null=True)
     photo_styles = models.CharField(max_length=200, blank=True, null=True)
     user = models.OneToOneField(User, related_name='profile')
+    objects = models.Manager()
+    active = ActiveUsersManger()
 
+    @property
     def active(self):
         """Give permission to become an active user, loggin in."""
-        self.is_active = True
-        return
+        return self.is_active
+
+
+@receiver(post_save, sender=User)
+def profile_generator(sender, instance, **kwargs):
+    """Generate profile for user being created."""
+    if kwargs['created']:
+        profile = ImagerProfile(user=instance)
+        profile.save()

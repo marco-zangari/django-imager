@@ -37,8 +37,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'imager_profile',
-    ]
+    'django_imager',
+    'imager_profile']
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -126,3 +126,16 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 
 STATIC_URL = '/static/'
+
+LOGIN_REDIRECT_URL = 'home'
+
+
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+REGISTRATION_AUTO_LOGIN = True
+ACCOUNT_ACTIVATION_DAYS = 1
+EMAIL_HOST_USER = 'hellomollar@gmail.com'
+EMAIL_HOST_PASSWORD = 'bao19970356'
+DEFAULT_FROM_EMAIL = 'hellomollar@gmail.com'
+
