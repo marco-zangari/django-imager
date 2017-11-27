@@ -1,0 +1,25 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <!-- <link rel="stylesheet" type="text/css" href="{% static 'style.css' %}"> -->
+</head>
+<body>
+<nav>
+    <ul>
+        <li><a href="{% url 'home' %}">Home</a></li>
+        {% if request.user.is_authenticated %}
+        <li><a href="{% url 'logout' %}">Log Out</a></li>
+        {% else %}
+        <li><a href="{% url 'login' %}">Log In</a></li>
+        <li><a href="{% url 'registration_register' %}">Register</a></li>
+        {% endif %}
+    </ul>
+</nav>
+
+
+{% block content %}{% endblock %}
+
+</body>
+</html>

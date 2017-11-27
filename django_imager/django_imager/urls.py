@@ -15,7 +15,14 @@ Including another URLconf
 """
 from django.conf.urls import url
 from django.contrib import admin
+from django_imager.views import home_view
+from django.conf.urls import url, include
+from django.contrib.auth.views import login, logout
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
+    url(r'^$', home_view, name='home'),
+    url(r'^login$', login, name="login"),
+    url(r'^logout$', logout, name='logout'),
+    url(r'^accounts/', include('registration.backends.hmac.urls')),
 ]
