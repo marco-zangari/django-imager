@@ -16,8 +16,8 @@ install:
   - pip install coveralls
 
 script:
-  - python3 ./manage.py migrate
-  - python3 ./manage.py test -v 2
+  - python imagersite/manage.py migrate
+  - coverage run imagersite/manage.py test imagersite
 
 after_success:
   - coveralls
