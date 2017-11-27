@@ -6,7 +6,7 @@ services:
   - postgresql
 
 before_script:
-  - psql -c "create database imager;" -U postgres
+  - psql -c "CREATE DATABASE IMAGER;" -U postgres
 
 env:
   - DB_NAME=imager DB_USER=postgres DB_HOST='localhost' SECRET_KEY='el$_axvj9ph61uj0i_&c(*#1@l&t3hkd@z5h4ym&2u6x9tz(_u'
@@ -16,8 +16,8 @@ install:
   - pip install coveralls
 
 script:
-  - python django_imager/manage.py migrate
-  - coverage run django_imager/manage.py test django_imager
+  - python imagersite/manage.py migrate
+  - coverage run imagersite/manage.py test imagersite
 
 after_success:
   - coveralls
