@@ -4,6 +4,12 @@ from django.test import TestCase
 # Create your tests here.
 
 from imager_profile.models import ImagerProfile, User
+import factory
+
+
+class UserFactory(factory.django.DjangoModelFactory):
+    class Meta:
+        model = User
 
 
 class ProfileTests(TestCase):
@@ -11,27 +17,29 @@ class ProfileTests(TestCase):
 
     def setUp(self):
         """Initiate with two users in the db, one activce and one not."""
-        user = User(username='john', email='john@image.com')
+        user = UserFactory.create()
+        user.username = 'john'
+        user.email = 'john@image.com'
         user.set_password('password')
         user.save()
-        profile = ImagerProfile(website='www.iphoto.com',
-                                camera='Nikkon',
-                                location='studio destiny',
-                                bio='I take pictures',
-                                phone='(000) 111 2222',
-                                user=user)
-        profile.save()
+        user.profile.website = 'www.iphoto.com'
+        user.profile.camera = 'Nikkon'
+        user.profile.location = 'studio destiny'
+        user.profile.bio = 'I take pictures'
+        user.profile.phone = '(000) 111 2222'
+        user.profile.save()
 
-        user = User(username='nick', email='nick@image.com')
+        user = UserFactory.create()
+        user.username = 'nick'
+        user.email = 'nick@image.com'
         user.set_password('password')
         user.save()
-        profile = ImagerProfile(website='www.imgluv.com',
-                                camera='Sony',
-                                location='studio hell',
-                                bio='I take pictures too',
-                                phone='(000) 222 3333',
-                                user=user)
-        profile.save()
+        user.profile.website = 'www.imgluv.com'
+        user.profile.camera = 'Sony'
+        user.profile.location = 'studio hell'
+        user.profile.bio = 'I take pictures too'
+        user.profile.phone = '(000) 222 3333'
+        user.profile.save()
 
     def test_user_nick_can_point_to_its_profile(self):
         """Test if user can point to its profile."""
