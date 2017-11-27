@@ -15,7 +15,7 @@ Including another URLconf
 """
 from django.conf.urls import url
 from django.contrib import admin
-from django_imager.views import home_view
+from imagersite.views import home_view
 from django.conf.urls import url, include
 from django.contrib.auth.views import login, logout
 
