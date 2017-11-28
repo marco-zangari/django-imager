@@ -16,7 +16,6 @@ class ActiveUsersManger(models.Manager):
 # Create your models here.
 class ImagerProfile(models.Model):
     """Profile for the user of the application."""
-    is_active = models.BooleanField(default=False)
     website = models.URLField(max_length=200, blank=True, null=True)
     location = models.CharField(max_length=200, blank=True, null=True)
     fee = models.FloatField(max_length=200, blank=True, null=True)
@@ -30,9 +29,9 @@ class ImagerProfile(models.Model):
     active = ActiveUsersManger()
 
     @property
-    def active(self):
+    def is_active(self):
         """Give permission to become an active user, loggin in."""
-        return self.is_active
+        return self.user.is_active
 
 
 @receiver(post_save, sender=User)

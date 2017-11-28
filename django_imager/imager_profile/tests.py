@@ -6,6 +6,8 @@ from django.test import TestCase
 from imager_profile.models import User
 import factory
 from django.test import Client
+from django.urls import reverse_lazy
+from django.core import mail
 
 
 class UserFactory(factory.django.DjangoModelFactory):
@@ -134,14 +136,48 @@ class ViewTest(TestCase):
         response = self.client.get('/login')
         self.assertEquals(response.status_code, 200)
 
-    def test_can_access_logout_view(self):
-        """Test logout view is accessible."""
-        response = self.client.get('/logout')
-        self.assertEquals(response.status_code, 200)
-
     def test_user_can_login_successful(self):
         """Test if we can login successful."""
         response = self.client.post('/login', {'username': 'john', 'password': 'password'}, follow=True)
         self.assertEquals(response.status_code, 200)
         # import pdb; pdb.set_trace()
         self.assertIn(b'Welcome to Home Page home', response.content)
+        response = self.client.get('/logout', follow=True)
+        self.assertEquals(response.status_code, 200)
+
+    def test_register_view_status_code_200(self):
+        """Test register view has 200 status."""
+        response = self.client.get(reverse_lazy('registration_register'))
+        self.assertEqual(response.status_code, 200)
+
+    def test_post_registration_redirects(self):
+        """Test if we get re-directed to home."""
+        data = {
+            'username': 'linda',
+            'password1': 'phtato12345_abc',
+            'password2': 'phtato12345_abc',
+            'email': 'linda@1234.com'
+        }
+        response = self.client.post(
+            reverse_lazy('registration_register'),
+            data, follow=True
+        )
+        self.assertIn(b'Welcome, linda!', response.content)
+        self.assertTrue(response.status_code, 200)
+
+    def test_newly_registered_user_exists_and_is_inactive(self):
+        """."""
+        data = {
+            'username': 'linda',
+            'password1': 'phtato12345_abc',
+            'password2': 'phtato12345_abc',
+            'email': 'linda@1234.com'
+        }
+        self.client.post(
+            reverse_lazy('registration_register'),
+            data,
+            follow=True
+        )
+        # self.assertTrue(User.objects.count() == 2)  # 1 from default setup User
+        # import pdb; pdb.set_trace()
+        self.assertFalse(User.objects.all()[1].is_active)
