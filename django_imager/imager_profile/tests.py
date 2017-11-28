@@ -117,6 +117,11 @@ class ViewTest(TestCase):
 
     def setUp(self):
         """Initiate with two users in the db, one activce and one not."""
+        user = UserFactory.build()
+        user.username = 'john'
+        user.email = 'john@image.com'
+        user.set_password('password')
+        user.save()
         self.client = Client()
 
     def test_can_access_main_view(self):
@@ -134,3 +139,9 @@ class ViewTest(TestCase):
         response = self.client.get('/logout')
         self.assertEquals(response.status_code, 200)
 
+    def test_user_can_login_successful(self):
+        """Test if we can login successful."""
+        response = self.client.post('/login', {'username': 'john', 'password': 'password'}, follow=True)
+        self.assertEquals(response.status_code, 200)
+        # import pdb; pdb.set_trace()
+        self.assertIn(b'Welcome to Home Page home', response.content)
