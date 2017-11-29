@@ -3,6 +3,7 @@ from imager_images.views import library_view, album_view, photo_view, albums_vie
 
 urlpatterns = [
     url(r'^$', library_view, name='library'),
+    url(r'library/$', library_view, name='library'),
     url(r'albums$', albums_view, name='albums'),
     url(r'photos$', photos_view, name='photos'),
     url(r'album/(?P<album_id>\d+)/$', album_view, name='album'),
