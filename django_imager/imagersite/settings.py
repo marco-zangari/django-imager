@@ -142,3 +142,5 @@ EMAIL_HOST_USER = 'hellomollar@gmail.com'
 EMAIL_HOST_PASSWORD = 'bao19970356'
 DEFAULT_FROM_EMAIL = 'hellomollar@gmail.com'
 
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'MEDIA')

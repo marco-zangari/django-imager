@@ -101,3 +101,7 @@ ENV/
 .mypy_cache/
 
 .DS_Store
+
+#MEDIA
+django_imager/MEDIA/*
+!django_imager/.gitkeep
