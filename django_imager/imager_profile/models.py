@@ -33,6 +33,10 @@ class ImagerProfile(models.Model):
         """Give permission to become an active user, loggin in."""
         return self.user.is_active
 
+    def __str__(self):
+        """."""
+        return self.user.username
+
 
 @receiver(post_save, sender=User)
 def profile_generator(sender, instance, **kwargs):

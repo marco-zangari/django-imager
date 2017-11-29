@@ -1,7 +1,9 @@
 {% extends "base.html" %}
 {% block content %}
 
-<h3>Welcome to Home Page {{page}}</h3>
 
-
+<div class="container">
+    <h3>Welcome to Home Page {{page}}</h3>
+    <div><img src="{{ photo.photo.url }}" /></div>
+</div>
 {% endblock %}

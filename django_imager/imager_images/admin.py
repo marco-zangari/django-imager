@@ -1,7 +1,14 @@
 from django.contrib import admin
 from imager_images.models import Photo, Album
 
-
-# Register your models here.
 admin.site.register(Photo)
-admin.site.register(Album)
+
+
+class AlbumInline(admin.TabularInline):
+    model = Album.photos.through
+
+
+@admin.register(Album)
+class AlbumAdmin(admin.ModelAdmin):
+    inlines = (AlbumInline,)
+    exclude = ('photos',)
