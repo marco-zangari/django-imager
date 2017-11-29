@@ -17,7 +17,8 @@ install:
 
 script:
   - python django_imager/manage.py migrate
-  - coverage run django_imager/manage.py test django_imager
+  - cd django_imager
+  - ./manage.py test
 
 after_success:
   - coveralls
