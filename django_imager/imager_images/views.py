@@ -3,8 +3,8 @@
 # from django.contrib.auth.models import User
 from django.shortcuts import render
 from imager_profile.models import ImagerProfile
+from django.views.generic.detail import DetailView
 from imager_images.models import Album, Photo
-
 
 # Create your views here.
 
@@ -26,10 +26,11 @@ def album_view(request, album_id):
     return render(request, 'imager_images/album.html', {'album': album, 'photos': photos})
 
 
-def photo_view(request, photo_id):
-    """Photo view(one photo) handling function."""
-    photo = Photo.objects.filter(id=photo_id).first()
-    return render(request, 'imager_images/photo.html', {'photo': photo})
+class PhotoDetailView(DetailView):
+    """Handle single photo request."""
+
+    template_name = 'imager_images/photo.html'
+    model = Photo
 
 
 def albums_view(request):
