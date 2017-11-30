@@ -1,11 +1,13 @@
 """Imager View controller."""
 
-# from django.contrib.auth.models import User
-from django.shortcuts import render
 from imager_profile.models import ImagerProfile
 from django.views.generic.detail import DetailView
 from django.views.generic import ListView
+from django.views.generic.edit import CreateView
 from imager_images.models import Album, Photo
+from imager_images.forms import AddAlbumForm, AddPhotoForm
+from django.http import HttpResponseRedirect
+from django.url import reverse_lazy
 
 # Create your views here.
 
@@ -25,7 +27,6 @@ class LibraryView(ListView):
 
     def get_queryset(self):
         """Override get_query."""
-        return {}
 
 
 class AlbumView(ListView):
@@ -39,6 +40,9 @@ class AlbumView(ListView):
         if album.published == 'PRIVATE':
             photos = album.photos.all()
             return {'album': album, 'photos': photos}
+
+    def get_queryset(self):
+        """Override get_query."""
 
 
 class PhotoDetailView(DetailView):
@@ -60,7 +64,6 @@ class AlbumsView(ListView):
 
     def get_queryset(self):
         """Override get_query."""
-        return {}
 
 
 class PhotosView(ListView):
@@ -75,4 +78,37 @@ class PhotosView(ListView):
 
     def get_queryset(self):
         """Override get_query."""
-        return {}
+
+
+class AddPhotoView(CreateView):
+    """Add photo view handling."""
+
+    login_required = True
+    template_name = 'imager_images/add_photo.html'
+    model = Photo
+    form_class = AddPhotoForm
+    success_url = reverse_lazy('library')
+
+    def form_valid(self, form):
+        """If form is valid, save, assign owner and re-direct."""
+        self.object = form.save()
+        self.object.owner = self.request.user.profile
+        self.object.save()
+        return HttpResponseRedirect(self.get_success_url())
+
+
+class AddAlbumView(CreateView):
+    """Add album view handing."""
+
+    login_required = True
+    template_name = 'imager_images/add_album.html'
+    model = Photo
+    form_class = AddAlbumForm
+    success_url = reverse_lazy('library')
+
+    def form_valid(self, form):
+        """If form is valid, save, assign owner and re-direct."""
+        self.object = form.save()
+        self.object.owner = self.request.user.profile
+        self.object.save()
+        return HttpResponseRedirect(self.get_success_url())
