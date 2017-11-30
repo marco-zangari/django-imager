@@ -22,10 +22,7 @@ def library_view(request):
 def album_view(request, album_id):
     """Album view handling function."""
     album = Album.objects.filter(id=album_id).first()
-    try:
-        photos = album.photos.all()
-    except Exception:
-        photos = None
+    photos = album.photos.all()
     return render(request, 'imager_images/album.html', {'album': album, 'photos': photos})
 
 
