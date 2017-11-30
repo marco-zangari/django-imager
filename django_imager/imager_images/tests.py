@@ -8,7 +8,6 @@ from imager_images.models import Album, Photo
 from datetime import datetime
 from django.test import Client
 from django.urls import reverse_lazy
-from imager_images.models import Album
 from django.core.files.uploadedfile import SimpleUploadedFile
 
 
@@ -117,7 +116,7 @@ class ViewTest(TestCase):
     """Testing for the imager_images app/model."""
 
     def setUp(self):
-        """Initiate with two users in the db, one activce and one not."""
+        """Initiate user, with photo and album tie to him."""
         user = UserFactory.build()
         user.username = 'john'
         user.email = 'john@image.com'
