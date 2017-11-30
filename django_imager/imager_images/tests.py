@@ -6,12 +6,28 @@ from imager_profile.models import User
 import factory
 from imager_images.models import Album, Photo
 from datetime import datetime
+from django.test import Client
+from django.urls import reverse_lazy
+from imager_images.models import Album
+from django.core.files.uploadedfile import SimpleUploadedFile
 
 
 class UserFactory(factory.django.DjangoModelFactory):
     """Factory boy!"""
     class Meta:
         model = User
+
+
+class PhotoFactory(factory.django.DjangoModelFactory):
+    """Factory boy!"""
+    class Meta:
+        model = Photo
+
+
+class AlbumFactory(factory.django.DjangoModelFactory):
+    """Factory boy!"""
+    class Meta:
+        model = Album
 
 
 class ProfileTests(TestCase):
@@ -95,3 +111,52 @@ class ProfileTests(TestCase):
         """Test album has an published type."""
         nick = User.objects.get(email='nick@image.com')
         self.assertEquals(nick.profile.albums.first().published, 'PRIVATE')
+
+
+class ViewTest(TestCase):
+    """Testing for the imager_images app/model."""
+
+    def setUp(self):
+        """Initiate with two users in the db, one activce and one not."""
+        user = UserFactory.build()
+        user.username = 'john'
+        user.email = 'john@image.com'
+        user.set_password('password')
+        user.save()
+        self.client = Client()
+
+        photo = PhotoFactory.build()
+        photo.owner = user.profile
+        photo.title = 'test_photo'
+        with open('imager_images/static/default.jpeg', 'rb') as img:  # img must be open with rb format
+            photo.photo = SimpleUploadedFile('img', img.read())
+        photo.save()
+
+        album = AlbumFactory.build()
+        album.owner = user.profile
+        album.title = 'test_album'
+        album.save()
+        album.photos.add(photo)
+
+        self.client.force_login(user)
+
+    def test_can_access_library_view(self):
+        """Test library view is accessible."""
+        response = self.client.get(reverse_lazy('library'))
+        self.assertEquals(response.status_code, 200)
+
+    def test_can_access_photos_view(self):
+        """Test all photos view is accessible."""
+        response = self.client.get(reverse_lazy('photos'))
+        self.assertEquals(response.status_code, 200)
+
+    def test_can_access_albums_view(self):
+        """Test all albums view is accessible."""
+        response = self.client.get(reverse_lazy('albums'))
+        self.assertEquals(response.status_code, 200)
+
+    def test_can_access_album_view(self):
+        """Test all album view is accessible."""
+        album_id = Album.objects.last().id
+        response = self.client.get(reverse_lazy('album', kwargs={'album_id': album_id}))
+        self.assertEquals(response.status_code, 200)

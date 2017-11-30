@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% load thumbnail %}
+{% load static %}
+
+{% block title %}<h2>All of the albums are here!!</h2>{% endblock %}
+{% block body %}
+
+{% if user.is_authenticated %}
+    <ul>
+
+        {% for album in albums %}
+            {% if album.cover_photo %}
+                <a href="{% url 'album' album.id %}"><li><img src="{{ album.cover_photo.url }}" height = 100, width= 100/></li></a>
+            {% else %}
+                <li><img src="{% static 'default.jpeg' %}" height = 400, width= 300/></li>
+            {% endif %}
+            <h2>Album name: {{album.title}}</h2>
+            <h3>Album detail: {{album.description}}</h3>
+        {% endfor %}
+    </ul>
+{% endif %}
+{% endblock %}

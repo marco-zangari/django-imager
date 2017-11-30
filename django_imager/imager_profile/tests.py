@@ -7,7 +7,6 @@ from imager_profile.models import User
 import factory
 from django.test import Client
 from django.urls import reverse_lazy
-from django.core import mail
 
 
 class UserFactory(factory.django.DjangoModelFactory):
@@ -150,23 +149,8 @@ class ViewTest(TestCase):
         response = self.client.get(reverse_lazy('registration_register'))
         self.assertEqual(response.status_code, 200)
 
-    def test_post_registration_redirects(self):
-        """Test if we get re-directed to home."""
-        data = {
-            'username': 'linda',
-            'password1': 'phtato12345_abc',
-            'password2': 'phtato12345_abc',
-            'email': 'linda@1234.com'
-        }
-        response = self.client.post(
-            reverse_lazy('registration_register'),
-            data, follow=True
-        )
-        self.assertIn(b'Welcome, linda!', response.content)
-        self.assertTrue(response.status_code, 200)
-
     def test_newly_registered_user_exists_and_is_inactive(self):
-        """."""
+        """Test new user is inactive."""
         data = {
             'username': 'linda',
             'password1': 'phtato12345_abc',
@@ -178,6 +162,4 @@ class ViewTest(TestCase):
             data,
             follow=True
         )
-        # self.assertTrue(User.objects.count() == 2)  # 1 from default setup User
-        # import pdb; pdb.set_trace()
         self.assertFalse(User.objects.all()[1].is_active)

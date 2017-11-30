@@ -24,7 +24,7 @@ class Photo(models.Model):
     date_uploaded = models.DateTimeField(auto_now=True)
     date_modified = models.DateTimeField(auto_now=True)
     date_published = models.DateTimeField(blank=True, null=True)
-    photo = models.ImageField(upload_to='', blank=True, null=True)
+    photo = models.ImageField(upload_to='images', blank=True, null=True)
 
 
 class Album(models.Model):

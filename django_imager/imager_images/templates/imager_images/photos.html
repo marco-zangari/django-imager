@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% load thumbnail %}
+{% load static %}
+
+{% block title %}<h2>All of the photos are here!!</h2>{% endblock %}
+{% block body %}
+
+{% if user.is_authenticated %}
+    <ul>
+
+        {% for photo in photos %}
+            {% if photo.cover_photo %}
+                <a href="{% url 'photo' photo.id %}"><li><img src="{{ photo.photo.url }}" height = 200, width= 200/></li></a>
+            {% else %}
+                <li><img src="{% static 'default.jpeg' %}" height = 200, width= 200/></li>
+            {% endif %}
+            <h2>Photo name: {{photo.title}}</h2>
+            <h3>photo detail: {{photo.description}}</h3>
+            <hr /><hr />
+        {% endfor %}
+    </ul>
+{% endif %}
+{% endblock %}
