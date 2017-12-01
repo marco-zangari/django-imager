@@ -3,22 +3,23 @@ from imager_images.models import Album, Photo
 from django import forms
 
 
+class AddPhotoForm(forms.ModelForm):
+    """Form to add new album."""
+
+    class Meta:
+        """Form fields for adding photo."""
+
+        model = Photo
+        fields = ['title', 'description', 'published', 'photo']
+        widgets = {'description': forms.Textarea()}
+
+
 class AddAlbumForm(forms.ModelForm):
     """Form to add new album."""
 
-    def __init__(self, *args, **kwargs):
-        """."""
-        super(AddAlbumForm, self).__init__(*args, **kwargs)
-        self.fields["cover_photo"].queryset = self.fields['owner'].queryset.first().photos.all()
-        self.fields["photos"].queryset = self.fields['owner'].queryset.first().photos.all()
-        del self.fields['owner']
-
     class Meta:
-        """Define model and stuff."""
+        """Form fields for adding album."""
 
         model = Album
-        exclude = [
-            'date_uploaded',
-            'date_modified',
-            'date_published',
-        ]
+        fields = ['title', 'description', 'published', 'cover_photo']
+        widgets = {'description': forms.Textarea()}

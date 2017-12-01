@@ -5,9 +5,9 @@ from django.views.generic.detail import DetailView
 from django.views.generic import ListView
 from django.views.generic.edit import CreateView
 from imager_images.models import Album, Photo
-from imager_images.forms import AddAlbumForm, AddPhotoForm
+from imager_images.forms import AddPhotoForm, AddAlbumForm
 from django.http import HttpResponseRedirect
-from django.url import reverse_lazy
+from django.urls import reverse_lazy
 
 # Create your views here.
 
@@ -91,24 +91,20 @@ class AddPhotoView(CreateView):
 
     def form_valid(self, form):
         """If form is valid, save, assign owner and re-direct."""
-        self.object = form.save()
-        self.object.owner = self.request.user.profile
-        self.object.save()
-        return HttpResponseRedirect(self.get_success_url())
+        form.instance.owner = self.request.user.profile
+        return super(CreateView, self).form_valid(form)
 
 
 class AddAlbumView(CreateView):
-    """Add album view handing."""
+    """Add album view handling."""
 
     login_required = True
     template_name = 'imager_images/add_album.html'
-    model = Photo
+    model = Album
     form_class = AddAlbumForm
     success_url = reverse_lazy('library')
 
     def form_valid(self, form):
         """If form is valid, save, assign owner and re-direct."""
-        self.object = form.save()
-        self.object.owner = self.request.user.profile
-        self.object.save()
-        return HttpResponseRedirect(self.get_success_url())
+        form.instance.owner = self.request.user.profile
+        return super(CreateView, self).form_valid(form)

@@ -2,7 +2,7 @@ from django.test import TestCase
 
 # Create your tests here.
 
-from imager_profile.models import User
+from imager_profile.models import User, ImagerProfile
 import factory
 from imager_images.models import Album, Photo
 from datetime import datetime
@@ -159,3 +159,49 @@ class ViewTest(TestCase):
         album_id = Album.objects.last().id
         response = self.client.get(reverse_lazy('album', kwargs={'album_id': album_id}))
         self.assertEquals(response.status_code, 200)
+
+    def test_can_access_add_album_view(self):
+        """Test all add album view is accessible."""
+        response = self.client.get(reverse_lazy('add_album'))
+        self.assertEquals(response.status_code, 200)
+
+    def test_can_access_add_photo_view(self):
+        """Test all add photo view is accessible."""
+        response = self.client.get(reverse_lazy('add_photo'))
+        self.assertEquals(response.status_code, 200)
+
+    def test_can_add_photo(self):
+        """Test if can insert photo."""
+        count = ImagerProfile.objects.first().photos.count()
+        with open('imager_images/static/default.jpeg', 'rb') as img:
+            photo = SimpleUploadedFile('img.jpeg', img.read())
+            data = {
+                'title': 'for_test',
+                'description': 'testing',
+                'published': 'PRIVATE',
+                'photo': photo
+            }
+            self.client.post(
+                reverse_lazy('add_photo'),
+                data,
+                follow=True
+            )
+        self.assertEqual(ImagerProfile.objects.first().photos.count(), count + 1)
+
+    def test_can_add_album(self):
+        """Test if can insert photo."""
+        count = ImagerProfile.objects.first().albums.count()
+        with open('imager_images/static/default.jpeg', 'rb') as img:
+            photo = SimpleUploadedFile('img.jpeg', img.read())
+            data = {
+                'title': 'for_test',
+                'description': 'testing',
+                'published': 'PRIVATE',
+                'cover_photo': photo
+            }
+            self.client.post(
+                reverse_lazy('add_album'),
+                data,
+                follow=True
+            )
+        self.assertEqual(ImagerProfile.objects.first().albums.count(), count + 1)
