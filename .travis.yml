@@ -19,7 +19,7 @@ script:
   - cd django_imager
   - python ./manage.py migrate easy_thumbnails
   - python ./manage.py migrate
-  - coverage run django_imager/manage.py test django_imager
+  - coverage run ./manage.py test django_imager
 
 after_success:
   - coveralls
