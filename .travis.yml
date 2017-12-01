@@ -16,8 +16,9 @@ install:
   - pip install coveralls
 
 script:
-  - python django_imager/manage.py migrate easy_thumbnails
-  - python django_imager/manage.py migrate
+  - cd django_imager
+  - python ./manage.py migrate easy_thumbnails
+  - python ./manage.py migrate
   - coverage run django_imager/manage.py test django_imager
 
 after_success:
