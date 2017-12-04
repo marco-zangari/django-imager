@@ -2,15 +2,22 @@
 {% load static %}
 {% load thumbnail %}
 
-{% block title %}<h2>Welcome to {{user.username}}'s album: {{album.title}}!</h2>{% endblock %}
+{% block title %}<h2>Welcome to {{user.username}}'s album!</h2>{% endblock %}
 
 
 {% block body %}
 
+<h4>Album title: {{album.title}}</h4>
+<h4>Album description: {{album.description}}</h4>
+<h4>Owner: {{album.owner.user.username}}</h4>
+
 <div class="container">
     <div class="row">
         <div class="card-image">
-            <a href="{% url 'album' album.id %}"><li><img src="{{ album.cover_photo.url }}" height = 200, width= 200/></li></a>
+            <figure>
+                <a href="{% url 'album' album.id %}"><img src="{{ album.cover_photo.url }}" height = 250, width= 250/></a>
+                <figcaption>cover photo for this album.</figcaption>
+            </figure>
         </div>
         {% for photo in photos %}
 
@@ -18,17 +25,15 @@
             <div class="card dpg-album-card">
 
                 <div class="card-image">
-                    <img src="{{ photo.photo.url }}" class="dpg-photo-card-image" height=500 weight=500/>
-                </div>
-
-                <div class="card-content">
-                    <span class="card-title">From Album: {{ album.title }}</span>
+                    <figure>
+                        <img src="{{ photo.photo.url }}" class="dpg-photo-card-image" height=200 weight=200/>
+                        <figcaption>Photo from this album.</figcaption>
+                    </figure>
                 </div>
                 <div class="card-action">
                 </div>
             </div>
         </div>
-
         {% endfor %}
 
     </div>

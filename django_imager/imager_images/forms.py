@@ -23,3 +23,26 @@ class AddAlbumForm(forms.ModelForm):
         model = Album
         fields = ['title', 'description', 'published', 'cover_photo']
         widgets = {'description': forms.Textarea()}
+
+
+class EditPhotoForm(forms.ModelForm):
+    """Form to edit a photo."""
+
+    class Meta:
+        """Fields for editing photo."""
+
+        model = Photo
+        fields = ['title', 'description', 'published']
+        widgets = {'description': forms.Textarea()}
+
+
+class EditAlbumForm(forms.ModelForm):
+    """Form to edit an album."""
+
+    class Meta:
+        """Fields for editing album."""
+
+        model = Album
+        fields = ['title', 'description', 'published', 'photos', 'cover_photo']
+        widgets = {'description': forms.Textarea()}
+
