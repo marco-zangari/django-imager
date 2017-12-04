@@ -13,12 +13,14 @@
 
 <div class="container">
     <div class="row">
+        {% if album.cover_photo %}
         <div class="card-image">
             <figure>
                 <a href="{% url 'album' album.id %}"><img src="{{ album.cover_photo.url }}" height = 250, width= 250/></a>
                 <figcaption>cover photo for this album.</figcaption>
             </figure>
         </div>
+        {% endif %}
         {% for photo in photos %}
 
         <div class="col">

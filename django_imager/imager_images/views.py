@@ -128,3 +128,4 @@ class EditAlbumView(UpdateView):
     model = Album
     form_class = EditPhotoForm
     success_url = reverse_lazy('library')
+

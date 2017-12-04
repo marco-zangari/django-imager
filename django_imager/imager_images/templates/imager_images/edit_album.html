@@ -9,10 +9,12 @@
   <form method="post" enctype="multipart/form-data">
     {% csrf_token %}
     {{ form.as_p }}
+    {% if album.cover_photo %}
     <figure>
       <a href="{% url 'album' album.id %}"><img src="{{ album.cover_photo.url }}" height = 200, width= 200/></a>
       <figcaption>cover photo for this album.</figcaption>
     </figure>
+    {% endif %}
     <button type="submit" value="update">Update</button>
   </form>
 

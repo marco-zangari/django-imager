@@ -160,6 +160,12 @@ class ViewTest(TestCase):
         response = self.client.get(reverse_lazy('album', kwargs={'album_id': album_id}))
         self.assertEquals(response.status_code, 200)
 
+    def test_can_access_photo_view(self):
+        """Test all photo view is accessible."""
+        photo_id = Photo.objects.last().id
+        response = self.client.get(reverse_lazy('photo', kwargs={'pk': photo_id}))
+        self.assertEquals(response.status_code, 200)
+
     def test_can_access_add_album_view(self):
         """Test all add album view is accessible."""
         response = self.client.get(reverse_lazy('add_album'))
@@ -205,3 +211,60 @@ class ViewTest(TestCase):
                 follow=True
             )
         self.assertEqual(ImagerProfile.objects.first().albums.count(), count + 1)
+
+    def test_can_access_album_edit_view(self):
+        """Test all album edit viewe is accessible."""
+        album_id = Album.objects.last().id
+        response = self.client.get(reverse_lazy('edit_album', kwargs={'pk': album_id}))
+        self.assertEquals(response.status_code, 200)
+
+    def test_can_access_photo_edit_view(self):
+        """Test all photo edit viewe is accessible."""
+        photo_id = Photo.objects.last().id
+        response = self.client.get(reverse_lazy('edit_photo', kwargs={'pk': photo_id}))
+        self.assertEquals(response.status_code, 200)
+
+    def test_can_edit_photo(self):
+        """Test if can edit an existing photo."""
+        photo_id = Photo.objects.last().id
+        data = {
+            'title': 'I\'ve changed it',
+            'description': 'changed content',
+            'published': 'PUBLIC',
+        }
+        self.client.post(
+            reverse_lazy('edit_photo', kwargs={'pk': photo_id}),
+            data,
+            follow=True
+        )
+        self.assertEqual(ImagerProfile.objects.first().photos.last().title, 'I\'ve changed it')
+        self.assertEqual(Photo.objects.last().title, 'I\'ve changed it')
+        self.assertEqual(Photo.objects.last().description, 'changed content')
+        self.assertEqual(Photo.objects.last().published, 'PUBLIC')
+
+    def test_can_edit_album(self):
+        """Test if can edit an existing album."""
+        album_id = Album.objects.last().id
+        with open('imager_images/static/default.jpeg', 'rb') as img:
+            photo = SimpleUploadedFile('img.jpeg', img.read())
+            data = {
+                'title': 'I\'ve changed it',
+                'description': 'changed content',
+                'published': 'PUBLIC',
+                'cover_photo': photo
+            }
+            self.client.post(
+                reverse_lazy('edit_album', kwargs={'pk': album_id}),
+                data,
+                follow=True
+            )
+        self.assertEqual(Album.objects.last().title, 'I\'ve changed it')
+        self.assertEqual(Album.objects.last().description, 'changed content')
+        self.assertEqual(Album.objects.last().published, 'PUBLIC')
+
+
+
+
+
+
+
