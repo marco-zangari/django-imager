@@ -1,5 +1,5 @@
 from django.conf.urls import url
-from imager_images.views import PhotoDetailView, AlbumsView, PhotosView, AlbumView, LibraryView, AddPhotoView, AddAlbumView
+from imager_images.views import PhotoDetailView, AlbumsView, PhotosView, AlbumView, LibraryView, AddPhotoView, AddAlbumView, EditAlbumView, EditPhotoView
 
 urlpatterns = [
     url(r'^$', LibraryView.as_view(), name='library'),
@@ -9,5 +9,7 @@ urlpatterns = [
     url(r'album/(?P<album_id>\d+)/$', AlbumView.as_view(), name='album'),
     url(r'photo/(?P<pk>\d+)/$', PhotoDetailView.as_view(), name='photo'),
     url(r'photos/add$', AddPhotoView.as_view(), name='add_photo'),
-    url(r'albums/add$', AddAlbumView.as_view(), name='add_album')
+    url(r'albums/add$', AddAlbumView.as_view(), name='add_album'),
+    url(r'photos/edit$', EditPhotoView.as_view(), name='edit_photo'),
+    url(r'albums/edit$', EditAlbumView.as_view(), name='edit_album'),
 ]
