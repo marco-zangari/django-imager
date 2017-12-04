@@ -3,9 +3,9 @@
 from imager_profile.models import ImagerProfile
 from django.views.generic.detail import DetailView
 from django.views.generic import ListView
-from django.views.generic.edit import CreateView
+from django.views.generic.edit import CreateView, UpdateView
 from imager_images.models import Album, Photo
-from imager_images.forms import AddPhotoForm, AddAlbumForm
+from imager_images.forms import AddPhotoForm, AddAlbumForm, EditPhotoForm
 from django.http import HttpResponseRedirect
 from django.urls import reverse_lazy
 
@@ -108,3 +108,24 @@ class AddAlbumView(CreateView):
         """If form is valid, save, assign owner and re-direct."""
         form.instance.owner = self.request.user.profile
         return super(CreateView, self).form_valid(form)
+
+
+class EditPhotoView(UpdateView):
+    """Edit photo view handling."""
+
+    login_required = True
+    template_name = 'imager_images/edit_photo.html'
+    model = Photo
+    form_class = EditPhotoForm
+    success_url = reverse_lazy('library')
+
+
+class EditAlbumView(UpdateView):
+    """docstring for EditAlbumView."""
+
+    login_required = True
+    template_name = 'imager_images/edit_album.html'
+    model = Album
+    form_class = EditPhotoForm
+    success_url = reverse_lazy('library')
+

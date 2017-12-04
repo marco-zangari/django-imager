@@ -3,7 +3,9 @@
 
 
 <div class="container">
-    <h3>Here is the photo you've requested:</h3>
+    <h4>Photo title: {{photo.title}}</h4>
+    <h4>Photo description: {{photo.description}}</h4>
+    <h4>Owner: {{photo.owner.user.username}}</h4>
     <div><img src="{{ photo.photo.url }}" height=500 width=500 /></div>
 </div>
 {% endblock %}
