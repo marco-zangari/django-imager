@@ -251,7 +251,8 @@ class ViewTest(TestCase):
                 'title': 'I\'ve changed it',
                 'description': 'changed content',
                 'published': 'PUBLIC',
-                'cover_photo': photo
+                'cover_photo': photo,
+                'photo': photo
             }
             self.client.post(
                 reverse_lazy('edit_album', kwargs={'pk': album_id}),

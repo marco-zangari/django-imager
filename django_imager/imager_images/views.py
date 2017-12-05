@@ -5,8 +5,7 @@ from django.views.generic.detail import DetailView
 from django.views.generic import ListView
 from django.views.generic.edit import CreateView, UpdateView
 from imager_images.models import Album, Photo
-from imager_images.forms import AddPhotoForm, AddAlbumForm, EditPhotoForm
-from django.http import HttpResponseRedirect
+from imager_images.forms import AddPhotoForm, AddAlbumForm, EditPhotoForm, EditAlbumForm
 from django.urls import reverse_lazy
 
 # Create your views here.
@@ -126,6 +125,5 @@ class EditAlbumView(UpdateView):
     login_required = True
     template_name = 'imager_images/edit_album.html'
     model = Album
-    form_class = EditPhotoForm
+    form_class = EditAlbumForm
     success_url = reverse_lazy('library')
-

@@ -43,6 +43,6 @@ class EditAlbumForm(forms.ModelForm):
         """Fields for editing album."""
 
         model = Album
-        fields = ['title', 'description', 'published', 'photos', 'cover_photo']
+        fields = ['title', 'description', 'published', 'cover_photo']
         widgets = {'description': forms.Textarea()}
 
