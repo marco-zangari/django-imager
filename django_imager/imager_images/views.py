@@ -7,6 +7,7 @@ from django.views.generic.edit import CreateView, UpdateView
 from imager_images.models import Album, Photo
 from imager_images.forms import AddPhotoForm, AddAlbumForm, EditPhotoForm, EditAlbumForm
 from django.urls import reverse_lazy
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 # Create your views here.
 
@@ -79,7 +80,7 @@ class PhotosView(ListView):
         """Override get_query."""
 
 
-class AddPhotoView(CreateView):
+class AddPhotoView(CreateView, LoginRequiredMixin):
     """Add photo view handling."""
 
     login_required = True
@@ -94,7 +95,7 @@ class AddPhotoView(CreateView):
         return super(CreateView, self).form_valid(form)
 
 
-class AddAlbumView(CreateView):
+class AddAlbumView(CreateView, LoginRequiredMixin):
     """Add album view handling."""
 
     login_required = True
@@ -109,7 +110,7 @@ class AddAlbumView(CreateView):
         return super(CreateView, self).form_valid(form)
 
 
-class EditPhotoView(UpdateView):
+class EditPhotoView(UpdateView, LoginRequiredMixin):
     """Edit photo view handling."""
 
     login_required = True
@@ -119,7 +120,7 @@ class EditPhotoView(UpdateView):
     success_url = reverse_lazy('library')
 
 
-class EditAlbumView(UpdateView):
+class EditAlbumView(UpdateView, LoginRequiredMixin):
     """docstring for EditAlbumView."""
 
     login_required = True
