@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %}<h2>Edit your Profile!!</h2>{% endblock %}
+
+
+{% block content %}
+  <form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.as_p }}
+    {% if profile.photo %}
+      <img src="{{ profile.photo.url }}" height=250 height=250 />
+    {% else % }
+      <img src="{% static 'default.jpeg' %}" height = 200, width= 200/>
+    {% endif %}
+    <button type="submit" value="update">Update</button>
+  </form>
+
+  {% if uploaded_file_url %}
+    <p>File uploaded at: <a href="{{ uploaded_file_url }}">{{ uploaded_file_url }}</a></p>
+  {% endif %}[.]
+
+  <p><a href="{% url 'home' %}">Return to home</a></p>
+{% endblock %}
