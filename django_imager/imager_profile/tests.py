@@ -3,7 +3,7 @@ from django.test import TestCase
 
 # Create your tests here.
 
-from imager_profile.models import User
+from imager_profile.models import User, ImagerProfile
 import factory
 from django.test import Client
 from django.urls import reverse_lazy
@@ -113,53 +113,52 @@ class ProfileTests(TestCase):
         self.assertIsNotNone(nick.profile.bio)
 
 
-class ViewTest(TestCase):
+class ProfileViewTest(TestCase):
     """Testing for the imager_profile app/model."""
 
     def setUp(self):
         """Initiate with two users in the db, one activce and one not."""
         user = UserFactory.build()
-        user.username = 'john'
-        user.email = 'john@image.com'
+        user.username = 'nick'
+        user.email = 'nick@image.com'
         user.set_password('password')
         user.save()
+        user.profile.website = 'www.imgluv.com'
+        user.profile.camera = 'Sony'
+        user.profile.location = 'studio hell'
+        user.profile.bio = 'I take pictures too'
+        user.profile.phone = '(000) 222 3333'
+        user.profile.save()
         self.client = Client()
+        self.client.force_login(user)
 
-    def test_can_access_main_view(self):
-        """Test home view is accessible."""
-        response = self.client.get('/')
+    def test_can_access_my_profile_view(self):
+        """Test profile view is accessible."""
+        response = self.client.get(reverse_lazy('my_profile'))
         self.assertEquals(response.status_code, 200)
 
-    def test_can_access_login_view(self):
-        """Test login view is accessible."""
-        response = self.client.get('/login')
+    def test_can_access_profile_view(self):
+        """Test profile view is accessible."""
+        response = self.client.get(reverse_lazy('profile', kwargs={'username': 'nick'}))
         self.assertEquals(response.status_code, 200)
 
-    def test_user_can_login_successful(self):
-        """Test if we can login successful."""
-        response = self.client.post('/login', {'username': 'john', 'password': 'password'}, follow=True)
-        self.assertEquals(response.status_code, 200)
-        # import pdb; pdb.set_trace()
-        self.assertIn(b'Welcome to Home Page home', response.content)
-        response = self.client.get('/logout', follow=True)
+    def test_can_access_edit_profile_view(self):
+        """Test profile edit view is accessible."""
+        response = self.client.get(reverse_lazy('edit_profile'))
         self.assertEquals(response.status_code, 200)
 
-    def test_register_view_status_code_200(self):
-        """Test register view has 200 status."""
-        response = self.client.get(reverse_lazy('registration_register'))
-        self.assertEqual(response.status_code, 200)
-
-    def test_newly_registered_user_exists_and_is_inactive(self):
-        """Test new user is inactive."""
+    def test_can_edit_profile(self):
+        """Test if can edit an existing photo."""
         data = {
-            'username': 'linda',
-            'password1': 'phtato12345_abc',
-            'password2': 'phtato12345_abc',
-            'email': 'linda@1234.com'
+            'bio': 'I\'ve changed it',
+            'camera': 'changed content',
+            'fee': '500',
         }
         self.client.post(
-            reverse_lazy('registration_register'),
+            reverse_lazy('edit_profile'),
             data,
             follow=True
         )
-        self.assertFalse(User.objects.all()[1].is_active)
+        self.assertEqual(User.objects.last().profile.bio, 'I\'ve changed it')
+        self.assertEqual(User.objects.last().profile.camera, 'changed content')
+        self.assertEqual(User.objects.last().profile.fee, 500.0)

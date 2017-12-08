@@ -9,4 +9,5 @@ class EditProfileForm(forms.ModelForm):
         """Fields for editing profile."""
 
         model = ImagerProfile
-        fields = ['website', 'location', 'camera', 'fee', 'phone', 'photo_styles']
+        fields = ['bio', 'website', 'location', 'camera', 'fee', 'phone', 'services', 'photo_styles']
+
