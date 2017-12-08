@@ -150,7 +150,7 @@ if not DEBUG:
     AWS_ACCESS_KEY_ID=os.environ.get('AWS_ACESS_KEY_ID', '')
     AWS_SECRET_ACCESS_KEY=os.environ.get('AWS_SECRET_ACCESS_KEY', '')
     AWS_S3_CUSTOM_DOMAIN = '%s.s3.amazonaws.com' % AWS_STORAGE_BUCKET_NAME
- 
+
     STATICFILES_LOCATION = 'static'
     MEDIAFILES_LOCATION = 'media'
     STATICFILES_STORAGE = 'imagersite.custom_storages.StaticStorage'
