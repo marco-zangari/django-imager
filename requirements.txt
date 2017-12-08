@@ -5,6 +5,10 @@ django-registration==2.3
 easy-thumbnails==2.4.1
 factory-boy==2.9.2
 Faker==0.8.7
+<<<<<<< HEAD
+=======
+ipython-genutils==0.2.0
+>>>>>>> 68a799cd034b40efd2666c1cdc5296c5b1752e13
 jedi==0.11.0
 olefile==0.44
 parso==0.1.0
