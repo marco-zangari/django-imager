@@ -17,8 +17,6 @@ from django.conf.urls import url, include
 from django.contrib import admin
 from imagersite.views import HomeView
 from django.contrib.auth.views import login, logout
-from django.conf import settings
-from django.conf.urls.static import static
 
 
 urlpatterns = [
@@ -30,7 +28,3 @@ urlpatterns = [
     url(r'^profile/', include('imager_profile.urls')),
     url(r'^images/', include('imager_images.urls')),
 ]
-
-
-if settings.DEBUG:
-    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
