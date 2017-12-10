@@ -134,30 +134,36 @@ LOGIN_REDIRECT_URL = 'home'
 # EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 ACCOUNT_ACTIVATION_DAYS = 7
 
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_PORT = 587
-EMAIL_USE_TLS = True
-REGISTRATION_AUTO_LOGIN = True
-EMAIL_HOST_USER = 'hellomollar@gmail.com'
-EMAIL_HOST_PASSWORD = 'bao19970356'
-DEFAULT_FROM_EMAIL = 'hellomollar@gmail.com'
+if DEBUG:
+    EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'	
+
+else:
+    EMAIL_HOST = 'smtp.gmail.com'
+    EMAIL_PORT = 587
+    EMAIL_USE_TLS = True
+    REGISTRATION_AUTO_LOGIN = True
+    EMAIL_HOST_USER = 'hellomollar@gmail.com'
+    EMAIL_HOST_PASSWORD = 'bao19970356'
+    DEFAULT_FROM_EMAIL = 'hellomollar@gmail.com'
 
 
-#if not DEBUG:
-  #  AWS_STORAGE_BUCKET_NAME='django-hbao'
-  #  AWS_ACCESS_KEY_ID=os.environ.get('AWS_ACESS_KEY_ID', '')
- #   AWS_SECRET_ACCESS_KEY=os.environ.get('AWS_SECRET_ACCESS_KEY', '')
- #   AWS_S3_CUSTOM_DOMAIN = '%s.s3.amazonaws.com' % AWS_STORAGE_BUCKET_NAME
- 
-   # STATICFILES_LOCATION = 'static'
-  #  MEDIAFILES_LOCATION = 'media'
- #   STATICFILES_STORAGE = 'imagersite.custom_storages.StaticStorage'
-#    DEFAULT_FILE_STORAGE = 'imagersite.custom_storages.MediaStorage'
-#    STATIC_URL = 'https://{}/{}/'.format(AWS_S3_CUSTOM_DOMAIN, STATICFILES_LOCATION)
-#    MEDIA_URL = 'https://{}/{}/'.format(AWS_S3_CUSTOM_DOMAIN, MEDIAFILES_LOCATION)
-#else:
-STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(BASE_DIR, "static")
+if not DEBUG:
+    AWS_STORAGE_BUCKET_NAME = 'hbao-django'
+    AWS_ACCESS_KEY_ID = os.environ.get('AWS_ACCESS_KEY_ID', '')
+    AWS_SECRET_ACCESS_KEY = os.environ.get('AWS_SECRET_ACCESS_KEY', '')
+    AWS_S3_CUSTOM_DOMAIN = '{}.s3.amazonaws.com'.format(AWS_STORAGE_BUCKET_NAME)
 
-MEDIA_URL = '/imgs/'
-MEDIA_ROOT = os.path.join(BASE_DIR, "MEDIA")
+    STATICFILES_LOCATION = 'static'
+    STATICFILES_STORAGE = 'imagersite.custom_storages.StaticStorage'
+    STATIC_URL = 'https://{}/{}/'.format(AWS_S3_CUSTOM_DOMAIN, STATICFILES_LOCATION)
+
+    MEDIAFILES_LOCATION = 'media'
+    DEFAULT_FILE_STORAGE = 'imagersite.custom_storages.MediaStorage'
+    MEDIA_URL = 'htts://{}/{}/'.format(AWS_S3_CUSTOM_DOMAIN, MEDIAFILES_LOCATION)
+
+else:
+    STATIC_URL = '/static/'
+    STATIC_ROOT = os.path.join(BASE_DIR, "static")
+
+    MEDIA_URL = '/imgs/'
+    MEDIA_ROOT = os.path.join(BASE_DIR, "MEDIA")
