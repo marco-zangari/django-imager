@@ -26,7 +26,7 @@ SECRET_KEY = 'hellothere'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ.get('DEBUG', False)
 
-ALLOWED_HOSTS = os.environ.get('ALLOWED_HOST', '').split()
+ALLOWED_HOSTS = os.environ.get('ALLOWED_HOST', 'localhost').split()
 
 # Application definition
 
@@ -110,8 +110,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
-
 # Internationalization
 # https://docs.djangoproject.com/en/1.11/topics/i18n/
 
@@ -136,7 +134,7 @@ LOGIN_REDIRECT_URL = 'home'
 ACCOUNT_ACTIVATION_DAYS = 7
 
 if DEBUG:
-    EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'	
+    EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 else:
     EMAIL_HOST = 'smtp.gmail.com'
