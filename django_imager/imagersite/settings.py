@@ -15,8 +15,6 @@ import os
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-print('Check')
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.11/howto/deployment/checklist/
 
@@ -24,9 +22,10 @@ print('Check')
 SECRET_KEY = 'hellothere'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.environ.get('DEBUG', False)
+DEBUG = bool(os.environ.get('DEBUG', ''))
 
-ALLOWED_HOSTS = os.environ.get('ALLOWED_HOST', '').split()
+ALLOWED_HOSTS = []
+
 
 # Application definition
 
@@ -81,7 +80,7 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': os.environ.get('DB_NAME', ''),
-        'USER': os.environ.get('DB_USERNAME', ''),
+        'USER': os.environ.get('DB_USER', ''),
         'PASSWORD': os.environ.get('DB_PASSWORD', ''),
         'HOST': os.environ.get('DB_HOST', ''),
         'PORT': '5432',
@@ -111,7 +110,6 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/1.11/topics/i18n/
 
@@ -136,7 +134,7 @@ LOGIN_REDIRECT_URL = 'home'
 ACCOUNT_ACTIVATION_DAYS = 7
 
 if DEBUG:
-    EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'	
+    EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 else:
     EMAIL_HOST = 'smtp.gmail.com'
