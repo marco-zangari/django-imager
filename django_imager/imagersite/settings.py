@@ -40,7 +40,9 @@ INSTALLED_APPS = [
     'imager_profile',
     'imager_images',
     'easy_thumbnails',
-    'storages']
+    'storages',
+    'imager_api',
+    'rest_framework']
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -164,6 +166,6 @@ else:
     STATIC_URL = '/static/'
     STATIC_ROOT = os.path.join(BASE_DIR, "static")
 
-    MEDIA_URL = '/imgs/'
+    MEDIA_URL = '/media/'
     MEDIA_ROOT = os.path.join(BASE_DIR, "MEDIA")
 
