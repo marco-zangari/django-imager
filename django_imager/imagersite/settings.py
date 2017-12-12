@@ -40,7 +40,8 @@ INSTALLED_APPS = [
     'imager_profile',
     'imager_images',
     'easy_thumbnails',
-    'storages']
+    'storages',
+    'imager_api']
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
