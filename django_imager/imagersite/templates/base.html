@@ -45,11 +45,20 @@
 
         <li class="nav-item">
           <a class="nav-link" href="{% url 'edit_profile'%}">Edit My Profile</a>
-        </li> 	
+        </li>
 
       {% else %}
         <li class="nav-item">
           <a class="nav-link" href="{% url 'login' %}">Login</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'social:begin' 'github' %}">Login with GitHub</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'social:begin' 'facebook' %}">Login with Facebook</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'social:begin' 'twitter' %}">Login with Twitter</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="{% url 'registration_register' %}">Register</a>
