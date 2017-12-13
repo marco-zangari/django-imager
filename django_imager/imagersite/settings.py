@@ -171,9 +171,9 @@ else:
     EMAIL_PORT = 587
     EMAIL_USE_TLS = True
     REGISTRATION_AUTO_LOGIN = True
-    EMAIL_HOST_USER = 'hellomollar@gmail.com'
-    EMAIL_HOST_PASSWORD = 'bao19970356'
-    DEFAULT_FROM_EMAIL = 'hellomollar@gmail.com'
+    EMAIL_HOST_USER = os.environ.get('EMAIL')
+    EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_PASSWORD')
+    DEFAULT_FROM_EMAIL = os.environ.get('EMAIL')
 
 
 if not DEBUG:
