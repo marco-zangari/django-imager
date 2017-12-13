@@ -1,7 +1,6 @@
 """View controller."""
 
 from imager_images.models import Photo
-from imager_profile.models import ImagerProfile
 from django.views.generic import TemplateView
 
 # Create your views here.
