@@ -23,7 +23,7 @@
         dest: /home/ubuntu/django-imager
 
     - name: create python3 virtual enviroment
-      command: python3 -m venv /home/ubuntu/django-imager
+      command: python3 -m venv /home/ubuntu/django-imager ENV
 
     - name: update pip
       pip:
