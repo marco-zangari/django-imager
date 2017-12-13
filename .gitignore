@@ -107,3 +107,4 @@ django_imager/MEDIA/*
 !django_imager/.gitkeep
 
 ENV2
+hosts
