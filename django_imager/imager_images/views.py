@@ -7,42 +7,63 @@ from django.views.generic.edit import CreateView, UpdateView
 from imager_images.models import Album, Photo
 from imager_images.forms import AddPhotoForm, AddAlbumForm, EditPhotoForm, EditAlbumForm
 from django.urls import reverse_lazy
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.shortcuts import render
 
 # Create your views here.
 
 
-class LibraryView(ListView):
+def library_view(request):
     """Handle library view request."""
+    profile = ImagerProfile.active.filter(user__username=request.user.username).first()
+    photos = profile.photos.order_by('id')
+    albums = profile.albums.order_by('id')
+    album_page = request.GET.get("album_page", 1)
+    photo_page = request.GET.get("photo_page", 1)
+    username = request.user.username
 
-    template_name = 'imager_images/library.html'
+    album_pages = Paginator(albums, 2)
+    photo_pages = Paginator(photos, 4)
+    try:
+        albums = album_pages.page(album_page)
+        photos = photo_pages.page(photo_page)
+    except PageNotAnInteger:
+        albums = album_pages.page(1)
+        photos = photo_pages.page(1)
+    except EmptyPage:
+        albums = album_pages.page(album_pages.num_pages)
+        photos = photo_pages.page(photo_pages.num_pages)
+    return render(request, 'imager_images/library.html', {'photos': photos, 'albums': albums, 'username': username})
 
-    def get_context_data(self):
-        """Return proper context."""
-        profile = ImagerProfile.active.filter(user__username=self.request.user.username).first()
-        photos = profile.photos.all()
-        albums = profile.albums.all()
-        username = self.request.user.username
-        return {'photos': photos, 'profile': profile, 'albums': albums, 'username': username}
 
-    def get_queryset(self):
-        """Override get_query."""
-
-
-class AlbumView(ListView):
+class AlbumView(ListView, UserPassesTestMixin):
     """Handle single album view request."""
 
     template_name = 'imager_images/album.html'
+    context_object_name = "photos"
+    paginate_by = 2
+    model = Album
+
+    def test_func(self):
+        """Set permission param for page."""
+        album = Album.objects.get(id=self.kwargs['album_id'])
+        return self.request.user is album.owner.user or album.published == 'PUBLIC'
 
     def get_context_data(self):
         """Return proper context."""
+        # import pdb; pdb.set_trace()
+        context = super(AlbumView, self).get_context_data()
         album = Album.objects.get(id=self.kwargs['album_id'])
-        if album.published == 'PRIVATE':
-            photos = album.photos.all()
-            return {'album': album, 'photos': photos}
+        photos = album.photos.all()
+        context['album'] = album
+        context['photo'] = photos
+        return context
 
     def get_queryset(self):
         """Override get_query."""
+        album = Album.objects.get(id=self.kwargs['album_id'])
+        return album.photos.order_by('id')
 
 
 class PhotoDetailView(DetailView):
@@ -73,11 +94,15 @@ class PhotosView(ListView):
 
     def get_context_data(self):
         """Return all album instances."""
-        photos = Photo.objects.all()
-        return {'photos': photos}
+        context = super(PhotosView, self).get_context_data()
+        photos = Photo.objects.all().filter(published='PUBLIC')
+        context['photos'] = photos
+        return context
 
     def get_queryset(self):
         """Override get_query."""
+        photos = Photo.objects.all()
+        return photos.order_by('id')
 
 
 class AddPhotoView(CreateView, LoginRequiredMixin):

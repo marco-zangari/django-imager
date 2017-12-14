@@ -26,6 +26,10 @@ class Photo(models.Model):
     date_published = models.DateTimeField(blank=True, null=True)
     photo = models.ImageField(upload_to='images', blank=True, null=True)
 
+    def __str__(self):
+        """."""
+        return self.title
+
 
 class Album(models.Model):
     """Model for each album."""
@@ -54,3 +58,5 @@ class Album(models.Model):
     date_modified = models.DateTimeField(auto_now=True)
     date_published = models.DateTimeField(blank=True, null=True)
     cover_photo = models.ImageField(upload_to='', blank=True, null=True)
+
+
