@@ -160,7 +160,6 @@ LOGIN_URL = 'login'
 LOGOUT_URL = 'logout'
 
 
-# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 ACCOUNT_ACTIVATION_DAYS = 7
 
 if DEBUG:
@@ -171,9 +170,9 @@ else:
     EMAIL_PORT = 587
     EMAIL_USE_TLS = True
     REGISTRATION_AUTO_LOGIN = True
-    EMAIL_HOST_USER = os.environ.get('EMAIL')
-    EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_PASSWORD')
-    DEFAULT_FROM_EMAIL = os.environ.get('EMAIL')
+    EMAIL_HOST_USER = 'han8909227@gmail.com'
+    EMAIL_HOST_PASSWORD = 'bao19970356'
+    DEFAULT_FROM_EMAIL = 'han8909227@gmail.com'
 
 
 if not DEBUG:
