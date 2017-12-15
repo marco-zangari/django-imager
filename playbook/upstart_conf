@@ -12,8 +12,8 @@ env DB_NAME='djangodb'
 env DB_HOST='django.c3hv4qhmdskj.us-west-2.rds.amazonaws.com'
 env DB_USERNAME='hbao'
 env DB_PASSWORD='Cookie_19922'
-env AWS_ACCESS_KEY_ID='AKIAIFQS757C63BMUCRQ'
-env AWS_SECRET_ACCESS_KEY='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'
+env AWS_ACCESS_KEY_ID='AKIAJNTLPJIKHDMQAFBQ'
+env AWS_SECRET_ACCESS_KEY='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'
 env ALLOWED_HOST='ec2-34-216-72-126.us-west-2.compute.amazonaws.com 34.216.72.126'
 env GITHUB_KEY='346c72e52df993ec79eb'
 env GITHUB_SECRET='207b3a5f318a9a63b13cf2aed2c37f6ae7c21bb9'
@@ -26,7 +26,7 @@ env EMAIL_PASSWORD='bao199703566'
 
 
 
-exec ../bin/gunicorn -b :8000 imagersite.wsgi:application
+exec /home/ubuntu/django-imager/bin/gunicorn -b :8000 imagersite.wsgi:application
 
 
 

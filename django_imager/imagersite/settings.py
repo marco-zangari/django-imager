@@ -162,7 +162,7 @@ LOGOUT_URL = 'logout'
 
 ACCOUNT_ACTIVATION_DAYS = 7
 
-if DEBUG:
+if not DEBUG:
     EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 else:
@@ -175,7 +175,7 @@ else:
     DEFAULT_FROM_EMAIL = 'han8909227@gmail.com'
 
 
-if not DEBUG:
+if DEBUG:
     AWS_STORAGE_BUCKET_NAME = 'hbao-django'
     AWS_ACCESS_KEY_ID = os.environ.get('AWS_ACCESS_KEY_ID', '')
     AWS_SECRET_ACCESS_KEY = os.environ.get('AWS_SECRET_ACCESS_KEY', '')
