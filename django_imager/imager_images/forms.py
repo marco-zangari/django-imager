@@ -21,7 +21,7 @@ class AddAlbumForm(forms.ModelForm):
         """Form fields for adding album."""
 
         model = Album
-        fields = ['title', 'description', 'published', 'cover_photo']
+        fields = ['title', 'description', 'published', 'cover_photo', 'photos']
         widgets = {'description': forms.Textarea()}
 
 

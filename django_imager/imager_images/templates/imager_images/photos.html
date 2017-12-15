@@ -9,7 +9,7 @@
     <ul>
 
         {% for photo in photos %}
-            {% if photo.cover_photo %}
+            {% if photo %}
                 <a href="{% url 'photo' photo.id %}"><li><img src="{{ photo.photo.url }}" height = 200, width= 200/></li></a>
             {% else %}
                 <li><img src="{% static 'default.jpeg' %}" height = 200, width= 200/></li>
