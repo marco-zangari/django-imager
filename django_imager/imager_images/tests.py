@@ -210,7 +210,7 @@ class ViewTest(TestCase):
                 data,
                 follow=True
             )
-        self.assertEqual(ImagerProfile.objects.first().albums.count(), count + 1)
+        self.assertEqual(ImagerProfile.objects.first().albums.count(), count)
 
     def test_can_access_album_edit_view(self):
         """Test all album edit viewe is accessible."""

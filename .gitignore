@@ -107,6 +107,9 @@ django_imager/MEDIA/*
 !django_imager/.gitkeep
 
 ENV2
+django_imager/playbook/upstart_conf
+django_imager/playbook/nginx_default
+playbook/
 hosts
-upstart_conf
-nginx_default
+playbook/upstart_conf
+playbook/nginx_default
