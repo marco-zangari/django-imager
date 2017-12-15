@@ -108,5 +108,5 @@ django_imager/MEDIA/*
 
 ENV2
 hosts
-upstart_conf
-nginx_default
+playbook/upstart_conf
+playbook/nginx_default
