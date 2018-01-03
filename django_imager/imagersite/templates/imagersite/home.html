@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block content %}
+{% load static %}
+
+
+<div class="container">
+    <h3>Welcome to Home Page {{page}}</h3>
+    {% if photo.photo.url %}
+        <div><img src="{{ photo.photo.url }}" height="500" width="500" alt="YOUR PROFILE PIC" /></div>
+    {% else %}
+        <img src="{% static 'default.jpeg' %}" height = 200, width= 200 alt="YOUR PROFILE PIC"/>
+    {% endif %}
+
+</div>
+{% endblock %}

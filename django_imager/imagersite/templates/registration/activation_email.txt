@@ -1,0 +1,10 @@
+Thank you for singing up with Imager!
+
+Please follow the instructions below to activate your account:
+
+
+Activate account: {{ site }}{% url 'registration_activate' activation_key %}
+
+Link is valid for {{ expiration_days }} days.
+
+

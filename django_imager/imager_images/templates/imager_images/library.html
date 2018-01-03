@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% load thumbnail %}
+{% load static %}
+
+{% block title %}<h2>Welcome to the Photo Library!</h2>{% endblock %}
+{% block body %}
+
+{% if user.is_authenticated %}
+    <ul>
+
+        <h1>{{ user.username }}'s Albums</h1>
+        {% for album in albums %}
+            {% if album.cover_photo %}
+                <a href="{% url 'album' album.id %}"><li><img src="{{ album.cover_photo.url }}" height = 100, width= 100/></li></a>
+            {% else %}
+                <a href="{% url 'album' album.id %}"><li><img src="{% static 'default.jpeg' %}" height = 400, width= 300/></li></a>
+            {% endif %}
+        {% endfor %}
+
+        {% for page_num in albums.paginator.page_range %}
+            <li><a href="?photo_page={{ photos.number }}&album_page={{ page_num }}">Page {{ page_num }}</a></li>
+        {% endfor %}
+
+        <hr />
+        <h1>{{ user.username }}'s Photos</h1>
+        <hr />
+
+        {% for photo in photos %}
+            <li><a href="{% url 'photo' photo.id %}"><img src="{{ photo.photo.url }}" height = 150, width= 150/></li>
+        {% endfor %}
+
+        {% for page_num in photos.paginator.page_range %}
+            <li><a href="?photo_page={{ page_num }}&album_page={{ albums.number }}">Page {{ page_num }}</a></li>
+        {% endfor %}
+
+
+    </ul>
+{% endif %}
+{% endblock %}

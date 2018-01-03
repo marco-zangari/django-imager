@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% load thumbnail %}
+
+
+
+{% block title %}Welcome to {{profile.user.username}}'s profile!{% endblock %}
+
+
+{% block body %}
+<ul>
+    {% if user.is_authenticated %}
+        <h1>{{ profile.user.username }}'s Profile</h1>
+        <li>Bio: {{profile.bio}}</li>
+        <li>Website: {{profile.website}}</li>
+        <li>Address: {{user.address}}</li>
+        {% if user.username == profile.user.username %}
+            <li>Camera: {{user.profile.camera}}</li>
+            <li>Contact Info: {{user.phone}}</li>
+        {% endif %}
+    {% endif %}
+</ul>
+{% endblock %}
